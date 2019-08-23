@@ -4,7 +4,7 @@ from app.common.decorators import raises
 
 from app.exceptions.errors import TooManyIngredientsError, IncorrectIngredientsError
 
-from app.models.ingredient_properties import *
+from app.data.ingredient_properties import *
 from app.objects.ingredients import *
 
 

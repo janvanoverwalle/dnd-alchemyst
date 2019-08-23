@@ -1,7 +1,7 @@
 """ Ingredients module """
 
 
-from app.models.ingredient_properties import *
+from app.data.ingredient_properties import *
 
 
 class Ingredient(object):
@@ -17,13 +17,14 @@ class Ingredient(object):
         self._details = kwargs.get('details')
         self._dc = kwargs.get('dc')
         self._terrain = kwargs.get('terrain')
+        self._property = kwargs.get('property', self._details)
 
         if not isinstance(self._type, list):
             self._type = [self._type]
 
         if not isinstance(self._terrain, list):
             self._terrain = [self._terrain]
-    
+
     def __str__(self):
         return self._name
 
@@ -63,6 +64,10 @@ class Ingredient(object):
     def terrain(self):
         return self._terrain
 
+    @property
+    def property(self):
+        return self._property
+
 
 ###############
 ### Potions ###
@@ -99,7 +104,8 @@ class DriedEphedra(Ingredient):
             terrain=[
                 IngredientTerrain.DESERT,
                 IngredientTerrain.MOUNTAIN
-            ]
+            ],
+            property={'increase_dice_type': 1}
         )
 
 
@@ -117,7 +123,8 @@ class FennelSilk(Ingredient):
             terrain=[
                 IngredientTerrain.ARCTIC,
                 IngredientTerrain.UNDERDARK
-            ]
+            ],
+            property={'resistance': ('cold', 3600)}
         )
 
 
@@ -135,7 +142,8 @@ class GengkoBrush(Ingredient):
             terrain=[
                 IngredientTerrain.HILL,
                 IngredientTerrain.UNDERDARK
-            ]
+            ],
+            property={'dice_amount': '*2', 'dice_total': '*.5', 'duration': 12}
         )
 
 
@@ -168,7 +176,8 @@ class MandrakeRoot(Ingredient):
             function=IngredientFunction.EFFECT,
             details='Reduce any disease or poison’s potency by half for 2d12 hours. Only hinders already existing poisons or diseases in the body. Cannot be altered by other ingredients.',
             dc=0,
-            terrain=IngredientTerrain.MOST
+            terrain=IngredientTerrain.MOST,
+            property={'potency': ('*.5', '2d12*3600')}
         )
 
 
@@ -183,7 +192,8 @@ class MilkweedSeeds(Ingredient):
             function=IngredientFunction.MODIFIER,
             details='Double the dice rolled of any healing Effect, but remove all Alchemy Modifier bonuses. This modifier can stack.',
             dc=2,
-            terrain=IngredientTerrain.MOST
+            terrain=IngredientTerrain.MOST,
+            property={'dice_amount': '*2', 'alchemy_modifier': 0}
         )
 
 
@@ -198,7 +208,8 @@ class WildSageroot(Ingredient):
             function=IngredientFunction.EFFECT,
             details='Heals for 2d4 + Alchemy Modifier.',
             dc=0,
-            terrain=IngredientTerrain.MOST
+            terrain=IngredientTerrain.MOST,
+            property={'effect_dice': '2d4+mod'}
         )
 
 
@@ -221,7 +232,8 @@ class ArcticCreeper(Ingredient):
             terrain=[
                 IngredientTerrain.ARCTIC,
                 IngredientTerrain.MOUNTAIN
-            ]
+            ],
+            property={'damage_type': ['cold', 'necrotic']}
         )
 
 
@@ -239,7 +251,8 @@ class AmanitaCap(Ingredient):
             terrain=[
                 IngredientTerrain.COASTAL,
                 IngredientTerrain.SWAMP
-            ]
+            ],
+            property={'lethal': False}
         )
 
 
@@ -255,7 +268,8 @@ class BasiliskBreath(Ingredient):
             function=IngredientFunction.EFFECT,
             details='Slowly paralyzes opponent. Target makes a DC 5 + Alchemy Modifier CON saving throw each turn for 4 turns. While under this affect, target is considered slowed by the slow spell. On a failed save, the target is considered [paralyzed] for 4 rounds. Cannot be modified or altered by other ingredients.',
             dc=5,
-            terrain=IngredientTerrain.MOUNTAIN
+            terrain=IngredientTerrain.MOUNTAIN,
+            property={'con_save': '5+mod', 'save_fail': {'condition': 'paralyzed', 'duration': 24}}
         )
 
 
@@ -273,7 +287,8 @@ class CactusJuice(Ingredient):
             terrain=[
                 IngredientTerrain.DESERT,
                 IngredientTerrain.GRASSLAND
-            ]
+            ],
+            property={'dormant': 5}
         )
 
 
@@ -292,7 +307,8 @@ class DrakusFlower(Ingredient):
                 IngredientTerrain.DESERT,
                 IngredientTerrain.GRASSLAND,
                 IngredientTerrain.MOUNTAIN
-            ]
+            ],
+            property={'damage_type': ['fire', 'acid']}
         )
 
 
@@ -310,7 +326,8 @@ class FrozenSeedlings(Ingredient):
             terrain=[
                 IngredientTerrain.ARCTIC,
                 IngredientTerrain.MOUNTAIN
-            ]
+            ],
+            property={'speed': (-10, 60)}
         )
 
 
@@ -325,7 +342,8 @@ class HarradaLeaf(Ingredient):
             function=IngredientFunction.MODIFIER,
             details='While [poisoned], target has disadvantage on ability checks. Cannot be altered by other ingredients.',
             dc=1,
-            terrain=IngredientTerrain.FOREST
+            terrain=IngredientTerrain.FOREST,
+            property={'disadvantage': True}
         )
 
 
@@ -340,7 +358,8 @@ class QuicksilverLichen(Ingredient):
             function=IngredientFunction.MODIFIER,
             details='Double the dice rolled of any Toxin Effect, but reduce that Effect duration by half. This modifier can stack.',
             dc=3,
-            terrain=IngredientTerrain.MOST
+            terrain=IngredientTerrain.MOST,
+            property={'dice_amount': '*2', 'duration': '*.5'}
         )
 
 
@@ -355,7 +374,8 @@ class RadiantSynthseed(Ingredient):
             function=IngredientFunction.MODIFIER,
             details='Change poison damage to radiant damage; target is still [poisoned] for 1 minute on a failed CON saving throw; this toxin is still considered poison damage when combining with other ingredients.',
             dc=2,
-            terrain=IngredientTerrain.UNDERDARK
+            terrain=IngredientTerrain.UNDERDARK,
+            property={'damage_type': ['radiant']}
         )
 
 
@@ -373,7 +393,8 @@ class SpineflowerBerries(Ingredient):
             terrain=[
                 IngredientTerrain.DESERT,
                 IngredientTerrain.SWAMP
-            ]
+            ],
+            property={'increase_dice_type': 1}
         )
 
 
@@ -386,9 +407,10 @@ class WyrmtonguePetals(Ingredient):
             type=IngredientType.POISON,
             rarity=IngredientRarity.COMMON,
             function=IngredientFunction.EFFECT,
-            details='1d4 + Alchemy Modifier poison damage per round; target is [poisoned] for 1 minute.',
+            details='1d4 + Alchemy Modifier poison damage per round; target is [poisoned] for 1 minute on a failed CON save.',
             dc=0,
-            terrain=IngredientTerrain.MOST
+            terrain=IngredientTerrain.MOST,
+            property={'effect_dice': '1d4+mod', 'con_save': '8+mod', 'save_fail': {'condition': 'poisoned', 'duration': 60}}
         )
 
 
@@ -415,7 +437,8 @@ class ChromusSlime(Ingredient):
             terrain=[
                 IngredientTerrain.COASTAL,
                 IngredientTerrain.UNDERDARK
-            ]
+            ],
+            property={'reverse_effect': True}
         )
 
 
@@ -437,7 +460,8 @@ class EmeticWax(Ingredient):
             terrain=[
                 IngredientTerrain.FOREST,
                 IngredientTerrain.SWAMP
-            ]
+            ],
+            property={'delay_effect': '1d6*6'}
         )
 
 
