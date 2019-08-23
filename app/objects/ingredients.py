@@ -6,6 +6,7 @@ from app.models.ingredient_properties import *
 
 class Ingredient(object):
     """ Default ingredient class """
+
     def __init__(self, name, **kwargs):
         self._name = name
         self._id = kwargs.get('id')
@@ -806,3 +807,50 @@ class WrackwortBulbs(Ingredient):
                 IngredientTerrain.SWAMP
             ]
         )
+
+
+class Ingredients(object):
+    """ Class holder for all ingredients """
+
+    BLOODGRASS = Bloodgrass()
+    DRIED_EPHEDRA = DriedEphedra()
+    FENNEL_SILK = FennelSilk()
+    GENGKO_BRUSH = GengkoBrush()
+    HYANCINTH_NECTAR = HyancinthNectar()
+    MANDRAKE_ROOT = MandrakeRoot()
+    MILKWEED_SEEDS = MilkweedSeeds()
+    WILD_SAGEROOT = WildSageroot()
+    ARCTIC_CREEPER = ArcticCreeper()
+    AMANITA_CAP = AmanitaCap()
+    BASILISK_BREATH = BasiliskBreath()
+    CACTUS_JUICE = CactusJuice()
+    DRAKUS_FLOWER = DrakusFlower()
+    FROZEN_SEEDLINGS = FrozenSeedlings()
+    HARRADA_LEAF = HarradaLeaf()
+    QUICKSILVER_LICHEN = QuicksilverLichen()
+    RADIANT_SYNTHSEED = RadiantSynthseed()
+    SPINEFLOWER_BERRIES = SpineflowerBerries()
+    WYRMTONGUE_PETALS = WyrmtonguePetals()
+    CHROMUS_SLIME = ChromusSlime()
+    EMETIC_WAX = EmeticWax()
+    LAVENDER_SPRIG = LavenderSprig()
+    ARROW_ROOT = ArrowRoot()
+    BLUE_TOADSHADE = BlueToadshade()
+    COSMOS_GLOND = CosmosGlond()
+    DEVILS_BLOODLEAF = DevilsBloodleaf()
+    ELEMENTAL_WATER = ElementalWater()
+    FIENDS_IVY = FiendsIvy()
+    HYDRATHISTLE = Hydrathistle()
+    IRONWOOD_HEART = IronwoodHeart()
+    LUMINOUS_CAP_DUST = LuminousCapDust()
+    MORTFLESH_POWDER = MortfleshPowder()
+    NIGHTSHADE_BERRIES = NightshadeBerries()
+    PRIMORDIAL_BALM = PrimordialBalm()
+    ROCK_VINE = RockVine()
+    SCILLIA_BEANS = ScilliaBeans()
+    SILVER_HIBISCUS = SilverHibiscus()
+    TAIL_LEAF = TailLeaf()
+    VERDANT_NETTLE = VerdantNettle()
+    VOIDROOT = Voidroot()
+    WISP_STALKS = WispStalks()
+    WRACKWORT_BULBS = WrackwortBulbs()
